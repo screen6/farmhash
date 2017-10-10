@@ -14,7 +14,7 @@
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "git://github.com/lovell/farmhash"
+    "url": "git://github.com/screen6/farmhash"
   },
   "keywords": [
     "farmhash",
