@@ -125,14 +125,14 @@ NAN_METHOD(Fingerprint32String) {
 NAN_METHOD(Fingerprint64Buffer) {
   Nan::HandleScope();
   v8::Local<v8::Object> buffer = info[0].As<v8::Object>();
-  int64_t hash = util::Fingerprint64(node::Buffer::Data(buffer), node::Buffer::Length(buffer));
+  uint64_t hash = util::Fingerprint64(node::Buffer::Data(buffer), node::Buffer::Length(buffer));
   info.GetReturnValue().Set(Nan::New(Uint64ToString(hash)).ToLocalChecked());
 }
 
 NAN_METHOD(Fingerprint64String) {
   Nan::HandleScope();
   std::string input = *Nan::Utf8String(info[0]);
-  int64_t hash = util::Fingerprint64(input);
+  uint64_t hash = util::Fingerprint64(input);
   info.GetReturnValue().Set(Nan::New(Uint64ToString(hash)).ToLocalChecked());
 }
 
