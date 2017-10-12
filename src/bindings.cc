@@ -136,6 +136,21 @@ NAN_METHOD(Fingerprint64String) {
   info.GetReturnValue().Set(Nan::New(Stringify(hash)).ToLocalChecked());
 }
 
+NAN_METHOD(Fingerprint64Custom) {
+  Nan::HandleScope();
+  std::string input = *Nan::Utf8String(info[0]);
+  int divisor = Nan::To<int>(info[1]).FromJust();
+  int64_t hash = util::Fingerprint64(input);
+  int64_t hkey = hash % divisor;
+  if (hkey < 0) {
+    hkey *= -1;
+  }
+  v8::Local<v8::Object> result = Nan::New<v8::Object>();
+  result->Set(Nan::New("hash").ToLocalChecked(), Nan::New(Stringify(hash)).ToLocalChecked());
+  result->Set(Nan::New("hkey").ToLocalChecked(), Nan::New(Stringify(hkey)).ToLocalChecked());
+  info.GetReturnValue().Set(result);
+}
+
 // Init
 
 NAN_MODULE_INIT(init) {
@@ -167,6 +182,8 @@ NAN_MODULE_INIT(init) {
     Nan::GetFunction(Nan::New<v8::FunctionTemplate>(Fingerprint64Buffer)).ToLocalChecked());
   Nan::Set(target, Nan::New("Fingerprint64String").ToLocalChecked(),
     Nan::GetFunction(Nan::New<v8::FunctionTemplate>(Fingerprint64String)).ToLocalChecked());
+  Nan::Set(target, Nan::New("Fingerprint64Custom").ToLocalChecked(),
+    Nan::GetFunction(Nan::New<v8::FunctionTemplate>(Fingerprint64Custom)).ToLocalChecked());
 }
 
 #ifdef FARMHASH_LEGACY
