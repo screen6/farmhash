@@ -18,9 +18,9 @@
 
 #include "upstream/farmhash.h"
 
-// Convert uint64_t to string via stream
+// Convert to string via stream
 template <typename T>
-std::string Uint64ToString(const T& t) {
+std::string Stringify(const T& t) {
   std::ostringstream ss;
   ss << t;
   return ss.str();
@@ -62,14 +62,14 @@ NAN_METHOD(Hash64Buffer) {
   Nan::HandleScope();
   v8::Local<v8::Object> buffer = info[0].As<v8::Object>();
   uint64_t hash = util::Hash64(node::Buffer::Data(buffer), node::Buffer::Length(buffer));
-  info.GetReturnValue().Set(Nan::New(Uint64ToString(hash)).ToLocalChecked());
+  info.GetReturnValue().Set(Nan::New(Stringify(hash)).ToLocalChecked());
 }
 
 NAN_METHOD(Hash64String) {
   Nan::HandleScope();
   std::string input = *Nan::Utf8String(info[0]);
   uint64_t hash = util::Hash64(input);
-  info.GetReturnValue().Set(Nan::New(Uint64ToString(hash)).ToLocalChecked());
+  info.GetReturnValue().Set(Nan::New(Stringify(hash)).ToLocalChecked());
 }
 
 NAN_METHOD(Hash64WithSeedBuffer) {
@@ -77,7 +77,7 @@ NAN_METHOD(Hash64WithSeedBuffer) {
   v8::Local<v8::Object> buffer = info[0].As<v8::Object>();
   uint64_t seed = static_cast<uint64_t>(Nan::To<uint32_t>(info[1]).FromJust());
   uint64_t hash = util::Hash64WithSeed(node::Buffer::Data(buffer), node::Buffer::Length(buffer), seed);
-  info.GetReturnValue().Set(Nan::New(Uint64ToString(hash)).ToLocalChecked());
+  info.GetReturnValue().Set(Nan::New(Stringify(hash)).ToLocalChecked());
 }
 
 NAN_METHOD(Hash64WithSeedString) {
@@ -85,7 +85,7 @@ NAN_METHOD(Hash64WithSeedString) {
   std::string input = *Nan::Utf8String(info[0]);
   uint64_t seed = static_cast<uint64_t>(Nan::To<uint32_t>(info[1]).FromJust());
   uint64_t hash = util::Hash64WithSeed(input, seed);
-  info.GetReturnValue().Set(Nan::New(Uint64ToString(hash)).ToLocalChecked());
+  info.GetReturnValue().Set(Nan::New(Stringify(hash)).ToLocalChecked());
 }
 
 NAN_METHOD(Hash64WithSeedsBuffer) {
@@ -94,7 +94,7 @@ NAN_METHOD(Hash64WithSeedsBuffer) {
   uint64_t seed1 = static_cast<uint64_t>(Nan::To<uint32_t>(info[1]).FromJust());
   uint64_t seed2 = static_cast<uint64_t>(Nan::To<uint32_t>(info[2]).FromJust());
   uint64_t hash = util::Hash64WithSeeds(node::Buffer::Data(buffer), node::Buffer::Length(buffer), seed1, seed2);
-  info.GetReturnValue().Set(Nan::New(Uint64ToString(hash)).ToLocalChecked());
+  info.GetReturnValue().Set(Nan::New(Stringify(hash)).ToLocalChecked());
 }
 
 NAN_METHOD(Hash64WithSeedsString) {
@@ -103,7 +103,7 @@ NAN_METHOD(Hash64WithSeedsString) {
   uint64_t seed1 = static_cast<uint64_t>(Nan::To<uint32_t>(info[1]).FromJust());
   uint64_t seed2 = static_cast<uint64_t>(Nan::To<uint32_t>(info[2]).FromJust());
   uint64_t hash = util::Hash64WithSeeds(input, seed1, seed2);
-  info.GetReturnValue().Set(Nan::New(Uint64ToString(hash)).ToLocalChecked());
+  info.GetReturnValue().Set(Nan::New(Stringify(hash)).ToLocalChecked());
 }
 
 // Fingerprint methods - platform independent
@@ -126,14 +126,14 @@ NAN_METHOD(Fingerprint64Buffer) {
   Nan::HandleScope();
   v8::Local<v8::Object> buffer = info[0].As<v8::Object>();
   uint64_t hash = util::Fingerprint64(node::Buffer::Data(buffer), node::Buffer::Length(buffer));
-  info.GetReturnValue().Set(Nan::New(Uint64ToString(hash)).ToLocalChecked());
+  info.GetReturnValue().Set(Nan::New(Stringify(hash)).ToLocalChecked());
 }
 
 NAN_METHOD(Fingerprint64String) {
   Nan::HandleScope();
   std::string input = *Nan::Utf8String(info[0]);
   uint64_t hash = util::Fingerprint64(input);
-  info.GetReturnValue().Set(Nan::New(Uint64ToString(hash)).ToLocalChecked());
+  info.GetReturnValue().Set(Nan::New(Stringify(hash)).ToLocalChecked());
 }
 
 // Init
