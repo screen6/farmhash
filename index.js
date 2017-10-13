@@ -80,10 +80,11 @@ module.exports = {
     throw new Error('Expected a String or Buffer for input');
   },
   fp64hashAndKey: function (input, div) {
-    if (typeof input === 'string') {
+    if (input) {
+      input = input.toString();
       if (!div) div = 1;
       return farmhash.Fingerprint64Custom(input, div);
     }
-    throw new Error('Expected a String for input');
+    throw new Error('Invalid input');
   }
 };
