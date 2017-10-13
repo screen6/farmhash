@@ -142,9 +142,6 @@ NAN_METHOD(Fingerprint64Custom) {
   int divisor = Nan::To<int>(info[1]).FromJust();
   int64_t hash = util::Fingerprint64(input);
   int64_t hkey = hash % divisor;
-  if (hkey < 0) {
-    hkey *= -1;
-  }
   int64_t ukey = (hash - hkey ) / divisor;
   v8::Local<v8::Object> result = Nan::New<v8::Object>();
   result->Set(Nan::New("hash").ToLocalChecked(), Nan::New(Stringify(hash)).ToLocalChecked());
